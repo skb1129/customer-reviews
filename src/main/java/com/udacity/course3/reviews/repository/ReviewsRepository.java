@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface ReviewsRepository extends JpaRepository<Review, Integer> {
   List<Review> findByProductId(Integer productId);
+  Review findByDescriptionAndCount(String Description, long count);
 }

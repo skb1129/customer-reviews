@@ -101,7 +101,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"count\": 2\n}"
+					"raw": "{\n\t\"count\": 2,\n\t\"description\": \"Fantastic\"\n}"
 				},
 				"url": {
 					"raw": "localhost:8080/reviews/products/1",

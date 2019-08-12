@@ -1,7 +1,12 @@
 package com.udacity.course3.reviews.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -11,6 +16,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "COMMENT")
+@JsonIgnoreProperties("review")
 public class Comment extends CommonEntityFields implements Serializable {
 
   @Column(name = "FEEDBACK")
@@ -22,8 +28,17 @@ public class Comment extends CommonEntityFields implements Serializable {
   @Column(name = "DISLIKES")
   private long dislikes;
 
-  @Column(name = "REVIEW_ID")
-  private Integer reviewId;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "REVIEW_ID", nullable = false)
+  private Review review;
+
+  public Review getReview() {
+    return review;
+  }
+
+  public void setReview( Review review ) {
+    this.review = review;
+  }
 
   public String getFeedback() {
     return feedback;
@@ -47,13 +62,5 @@ public class Comment extends CommonEntityFields implements Serializable {
 
   public void setDislikes( long dislikes ) {
     this.dislikes = dislikes;
-  }
-
-  public Integer getReviewId() {
-    return reviewId;
-  }
-
-  public void setReviewId( Integer reviewId ) {
-    this.reviewId = reviewId;
   }
 }

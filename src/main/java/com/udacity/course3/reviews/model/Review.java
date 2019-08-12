@@ -1,9 +1,13 @@
 package com.udacity.course3.reviews.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -16,13 +20,18 @@ import java.util.List;
  */
 @Entity
 @Table(name = "REVIEW")
+@JsonIgnoreProperties("product")
 public class Review extends CommonEntityFields implements Serializable {
 
   @Column(name = "COUNT")
   private long count;
 
-  @Column(name = "PRODUCT_ID")
-  private Integer productId;
+  @Column(name = "DESCRIPTION")
+  private String description;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "PRODUCT_ID", nullable = false)
+  private Product product;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "REVIEW_ID")
@@ -36,12 +45,20 @@ public class Review extends CommonEntityFields implements Serializable {
     this.count = count;
   }
 
-  public Integer getProductId() {
-    return productId;
+  public Product getProduct() {
+    return product;
   }
 
-  public void setProductId( Integer productId ) {
-    this.productId = productId;
+  public void setProduct( Product product ) {
+    this.product = product;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription( String description ) {
+    this.description = description;
   }
 
   public List<Comment> getCommentList() {

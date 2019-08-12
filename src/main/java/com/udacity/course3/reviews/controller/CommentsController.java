@@ -43,7 +43,7 @@ public class CommentsController {
         if(!review.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong review ID");
         }
-        comment.setReviewId(reviewId);
+        comment.setReview(review.get());
         return ResponseEntity.status(HttpStatus.OK).body(commentsRepository.save(comment));
     }
 

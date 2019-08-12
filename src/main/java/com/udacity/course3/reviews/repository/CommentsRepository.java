@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface CommentsRepository extends JpaRepository<Comment, Integer> {
   List<Comment> findByReviewId( Integer reviewId);
+  Comment findByFeedbackAndLikes(String feedBack, long likes);
 }

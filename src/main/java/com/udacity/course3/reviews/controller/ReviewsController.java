@@ -44,7 +44,7 @@ public class ReviewsController {
         if(!product.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong product ID");
         }
-        review.setProductId(productId);
+        review.setProduct(product.get());
         return ResponseEntity.status(HttpStatus.OK).body(reviewsRepository.save(review));
     }
 

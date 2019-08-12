@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,6 +62,20 @@ public class ReviewsApplicationTests {
 	}
 
 	@Test
+	public void testProductRepository(){
+		Product product = new Product();
+		product.setCost(50);
+		product.setName("burger");
+		product.setDescription("tasty bun");
+		product.setReviewsList(Collections.EMPTY_LIST);
+		productsRepository.save(product);
+
+		assertThat(productsRepository.findByNameAndCost("burger", 50)).isNotNull();
+		assertThat(productsRepository.findByNameAndCost("burger", 50).getDescription())
+				.isEqualTo("tasty bun");
+	}
+
+	@Test
 	public void isReviewLoaded(){
 		Product product = productsRepository.findByNameAndCost("PIZZA", 100);
 		List<Review> review = reviewsRepository.findByProductId(product.getId());
@@ -68,9 +83,33 @@ public class ReviewsApplicationTests {
 	}
 
 	@Test
+	public void testReviewRepo(){
+		Product product = productsRepository.findByNameAndCost("PIZZA", 100);
+		Review review = new Review();
+		review.setProduct(product);
+		review.setCommentList(Collections.EMPTY_LIST);
+		review.setCount(5);
+		review.setDescription("nice dish");
+		reviewsRepository.save(review);
+		assertThat(reviewsRepository.findByProductId(product.getId())).isNotEmpty();
+	}
+
+	@Test
 	public void isCommentLoaded(){
 		List<Comment> comment = commentsRepository.findByReviewId(1);
 		assertThat(comment).isNotEmpty();
+	}
+
+	@Test
+	public void testCommentsRepo(){
+		Review review = reviewsRepository.findByDescriptionAndCount("Fantastic", 10);
+		Comment comment = new Comment();
+		comment.setReview(review);
+		comment.setDislikes(0);
+		comment.setLikes(100);
+		comment.setFeedback("good");
+		commentsRepository.save(comment);
+		assertThat(commentsRepository.findByFeedbackAndLikes("good", 100).getFeedback()).isEqualTo("good");
 	}
 
 }
