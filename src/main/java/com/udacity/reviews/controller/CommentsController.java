@@ -1,9 +1,9 @@
-package com.udacity.course3.reviews.controller;
+package com.udacity.reviews.controller;
 
-import com.udacity.course3.reviews.model.Comment;
-import com.udacity.course3.reviews.model.Review;
-import com.udacity.course3.reviews.repository.CommentsRepository;
-import com.udacity.course3.reviews.repository.ReviewsRepository;
+import com.udacity.reviews.model.Comment;
+import com.udacity.reviews.model.Review;
+import com.udacity.reviews.repository.CommentsRepository;
+import com.udacity.reviews.repository.ReviewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class CommentsController {
 
     /**
      * Creates a comment for a review.
-     *
+     * <p>
      * 1. Add argument for comment entity. Use {@link RequestBody} annotation.
      * 2. Check for existence of review.
      * 3. If review not found, return NOT_FOUND.
@@ -37,10 +37,10 @@ public class CommentsController {
      * @param reviewId The id of the review.
      */
     @RequestMapping(value = "/reviews/{reviewId}", method = RequestMethod.POST)
-    public ResponseEntity<?> createCommentForReview( @PathVariable("reviewId") Integer reviewId,
-                                                     @RequestBody Comment comment ) {
+    public ResponseEntity<?> createCommentForReview(@PathVariable("reviewId") Integer reviewId,
+                                                    @RequestBody Comment comment) {
         Optional<Review> review = reviewsRepository.findById(reviewId);
-        if(!review.isPresent()){
+        if (!review.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong review ID");
         }
         comment.setReview(review.get());
@@ -49,7 +49,7 @@ public class CommentsController {
 
     /**
      * List comments for a review.
-     *
+     * <p>
      * 2. Check for existence of review.
      * 3. If review not found, return NOT_FOUND.
      * 4. If found, return list of comments.
@@ -59,7 +59,7 @@ public class CommentsController {
     @RequestMapping(value = "/reviews/{reviewId}", method = RequestMethod.GET)
     public ResponseEntity<List<?>> listCommentsForReview(@PathVariable("reviewId") Integer reviewId) {
         Optional<Review> review = reviewsRepository.findById(reviewId);
-        if(!review.isPresent()){
+        if (!review.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
         }
         return ResponseEntity.status(HttpStatus.OK).body(commentsRepository.findByReviewId(reviewId));

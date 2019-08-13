@@ -1,6 +1,6 @@
-package com.udacity.course3.reviews.repository;
+package com.udacity.reviews.repository;
 
-import com.udacity.course3.reviews.model.Product;
+import com.udacity.reviews.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 11/8/19
  */
 public interface ProductsRepository extends JpaRepository<Product, Integer> {
-  Product findByNameAndCost(String name, long cost);
+    Product findByNameAndCost(String name, long cost);
 }

@@ -1,14 +1,13 @@
-package com.udacity.course3.reviews.controller;
+package com.udacity.reviews.controller;
 
-import com.udacity.course3.reviews.model.Product;
-import com.udacity.course3.reviews.model.Review;
-import com.udacity.course3.reviews.repository.ProductsRepository;
-import com.udacity.course3.reviews.repository.ReviewsRepository;
+import com.udacity.reviews.model.Product;
+import com.udacity.reviews.model.Review;
+import com.udacity.reviews.repository.ProductsRepository;
+import com.udacity.reviews.repository.ReviewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,10 +37,10 @@ public class ReviewsController {
      * @return The created review or 404 if product id is not found.
      */
     @RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.POST)
-    public ResponseEntity<?> createReviewForProduct( @PathVariable("productId") Integer productId,
-                                                     @RequestBody Review review ) {
+    public ResponseEntity<?> createReviewForProduct(@PathVariable("productId") Integer productId,
+                                                    @RequestBody Review review) {
         Optional<Product> product = productsRepository.findById(productId);
-        if(!product.isPresent()){
+        if (!product.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong product ID");
         }
         review.setProduct(product.get());
@@ -57,7 +56,7 @@ public class ReviewsController {
     @RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.GET)
     public ResponseEntity<List<?>> listReviewsForProduct(@PathVariable("productId") Integer productId) {
         Optional<Product> product = productsRepository.findById(productId);
-        if(!product.isPresent()){
+        if (!product.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
         }
         return ResponseEntity.status(HttpStatus.OK).body(reviewsRepository.findByProductId(productId));

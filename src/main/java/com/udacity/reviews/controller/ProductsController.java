@@ -1,12 +1,11 @@
-package com.udacity.course3.reviews.controller;
+package com.udacity.reviews.controller;
 
-import com.udacity.course3.reviews.model.Product;
-import com.udacity.course3.reviews.repository.ProductsRepository;
+import com.udacity.reviews.model.Product;
+import com.udacity.reviews.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,12 +22,12 @@ public class ProductsController {
 
     /**
      * Creates a product.
-     *
+     * <p>
      * 1. Accept product as argument. Use {@link RequestBody} annotation.
      * 2. Save product.
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<Product> createProduct( @RequestBody Product product ) {
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productsRepository.save(product));
     }
 
@@ -42,7 +41,7 @@ public class ProductsController {
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         Optional<Product> product = productsRepository.findById(id);
         return product.map(productFount -> ResponseEntity.status(HttpStatus.OK).body(product.get()))
-            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
     /**
