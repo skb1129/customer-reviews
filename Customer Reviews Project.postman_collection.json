@@ -133,7 +133,7 @@
 					"raw": "{\n\t\"count\": 10\n}"
 				},
 				"url": {
-					"raw": "localhost:8080/reviews/products/1",
+					"raw": "localhost:8080/reviews/products/1/true",
 					"host": [
 						"localhost"
 					],
@@ -141,7 +141,8 @@
 					"path": [
 						"reviews",
 						"products",
-						"1"
+						"1",
+						"true"
 					]
 				}
 			},

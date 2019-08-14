@@ -2,16 +2,16 @@ package com.udacity.reviews.controller;
 
 import com.udacity.reviews.model.Comment;
 import com.udacity.reviews.model.Review;
+import com.udacity.reviews.model.ReviewDocument;
 import com.udacity.reviews.repository.CommentsRepository;
+import com.udacity.reviews.repository.ReviewsMongoRepository;
 import com.udacity.reviews.repository.ReviewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Spring REST controller for working with comment entity.
@@ -25,6 +25,9 @@ public class CommentsController {
 
     @Autowired
     ReviewsRepository reviewsRepository;
+
+    @Autowired
+    ReviewsMongoRepository reviewsMongoRepository;
 
     /**
      * Creates a comment for a review.
@@ -42,6 +45,12 @@ public class CommentsController {
         Optional<Review> review = reviewsRepository.findById(reviewId);
         if (!review.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wrong review ID");
+        }
+        ReviewDocument reviewDocument = reviewsMongoRepository.findByDescriptionAndCount(review.get().getDescription(),
+                review.get().getCount());
+        if (Objects.nonNull(reviewDocument)) {
+            reviewDocument.setComments(Arrays.asList(comment));
+            reviewsMongoRepository.save(reviewDocument);
         }
         comment.setReview(review.get());
         return ResponseEntity.status(HttpStatus.OK).body(commentsRepository.save(comment));
