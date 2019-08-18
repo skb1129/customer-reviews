@@ -1,6 +1,6 @@
 package com.udacity.reviews.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +11,6 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "COMMENT")
-@JsonIgnoreProperties("review")
 public class Comment extends CommonEntityFields implements Serializable {
 
     @Column(name = "FEEDBACK")
@@ -23,6 +22,7 @@ public class Comment extends CommonEntityFields implements Serializable {
     @Column(name = "DISLIKES")
     private long dislikes;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "REVIEW_ID", nullable = false)
     private Review review;

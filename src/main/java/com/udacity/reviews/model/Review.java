@@ -1,6 +1,6 @@
 package com.udacity.reviews.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +13,6 @@ import java.util.List;
  */
 @Entity
 @Table(name = "REVIEW")
-@JsonIgnoreProperties("product")
 public class Review extends CommonEntityFields implements Serializable {
 
     @Column(name = "COUNT")
@@ -24,6 +23,7 @@ public class Review extends CommonEntityFields implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
+    @JsonIgnore
     private Product product;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

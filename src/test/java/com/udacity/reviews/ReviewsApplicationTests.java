@@ -6,6 +6,7 @@ import com.udacity.reviews.model.Review;
 import com.udacity.reviews.repository.CommentsRepository;
 import com.udacity.reviews.repository.ProductsRepository;
 import com.udacity.reviews.repository.ReviewsRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +103,7 @@ public class ReviewsApplicationTests {
         comment.setLikes(100);
         comment.setFeedback("good");
         commentsRepository.save(comment);
-        assertThat(commentsRepository.findByFeedbackAndLikes("good", 100).getFeedback()).isEqualTo("good");
+        Assertions.assertThat(commentsRepository.findByFeedbackAndLikes("good", 100).getFeedback()).isEqualTo("good");
     }
 
 }

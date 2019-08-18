@@ -1,9 +1,9 @@
 package com.udacity.reviews.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Column;
@@ -33,7 +33,7 @@ public class ReviewDocument {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @JsonIgnore
+    @DBRef
     private Product product;
 
     private List<Comment> comments = new ArrayList<>();
